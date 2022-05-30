@@ -1,0 +1,2 @@
+### linux node监控安装
+下载链接：https://github.com/Bingwenlin/Bingwenlin/blob/master/percona.tar.gz

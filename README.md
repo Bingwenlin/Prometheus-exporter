@@ -685,3 +685,4 @@ nohup ./clickhouse_exporter -telemetry.address=:9111 -scrape_uri=http://172.27.3
 curl localhost:9116/metrics | head 
 
 ```
+

@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mailgun-exporter
+  name: mailgun-exporter
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mailgun-exporter
+  template:
+    metadata:
+      labels:
+        app: mailgun-exporter
+    spec:
+      containers:
+      - env:
+        - name: MG_API_KEY
+          value: "xxxxxxxxxxxxxxx"
+        image: harbor.hk.batmobi.cn/batmobi/mailgun-exporter:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "2048Mi"
+          limits:
+            cpu: "2000m"
+            memory: "3096Mi"
+        name: mailgun-exporter
+        ports:
+        - containerPort: 9616
+          name: http
+          protocol: TCP
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mailgun-exporter
+  namespace: default
+spec:
+  ports:
+    - port: 9616
+      protocol: TCP
+      targetPort: 9616
+  selector:
+    app: mailgun-exporter
+  type: ClusterIP
